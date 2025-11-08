@@ -1,8 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
 body {
-    background-image: url('backGround.jpg');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), url('backGround.jpg');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     min-height: 100vh;
     margin: 0;
+}
+
+header {
+    background: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgb(0, 0, 0));
+    padding: 25px 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: cyan;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #00bcd4;
+}
+
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    padding-top: 80px;
+}
+
+.login-box {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 90px;
+    border-radius: 30px;
+    width: 700px;
+    text-align: center;
+    color: white;
+}
+
+.login-box .note {
+    font-size: 16px;
+    margin-bottom: 20px;
+    color: cyan;
+    font-style: initial;
+}
+
+.login-box input {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+    border: none;
+    border-radius: 8px;
+    outline: none;
+}
+
+.login-box button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 8px;
+    background-color: whitesmoke;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.login-box button:hover {
+    background-color: cyan;
 }

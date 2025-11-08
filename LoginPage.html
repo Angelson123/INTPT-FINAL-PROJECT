@@ -4,9 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="LoginPage.css">
-    <title>Document</title>
+    <title>Login Page</title>
 </head>
 <body>
-    
+    <header>
+        <div class="navbar">
+            <div class="logo">PARKING MANAGEMENT SYSTEM</div>
+            <ul class="nav-links">
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="LoginPage.html">Log In</a></li>
+                <li><a href="Reservation.html">My Reservation</a></li>
+                <li><a href="ParkingSlot.html">Parking Slot</a></li>
+                <li><a href="ContactUs.html">Contact Us</a></li>
+                <li><a href="HomePage.html">Log Out</a></li>
+            </ul>
+        </div>
+    </header>
+
+ <div class="login-container">
+        <div class="login-box">
+            <p class="note">
+                NOTE: Please reserve your slot at least 24 hours before your preferred parking appointment so our admin can approve it.</p>
+                <input type="text" name="name" placeholder="Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <input type="text" name="contact" placeholder="Contact Number" required>
+                <button type="submit" name="submit" value="user">Submit</button>
+                <button type="submit" name="submit" value="admin">Submit as Admin</button> 
+        </div>
+    </div>
 </body>
 </html>
