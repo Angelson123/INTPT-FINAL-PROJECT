@@ -1,175 +1,53 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CashFlow Budget Tracker</title>
-  <link rel="stylesheet" href="style3.css">
-  <style>
-    .controls { padding: 16px; display:flex; gap:8px; align-items:center; }
-    .form-inline { display:none; gap:8px; align-items:center; }
-    .form-inline input { padding:8px; border-radius:6px; border:1px solid #ccc; }
-    button { padding:8px 12px; border-radius:6px; border:none; background:#7c3aed; color:white; cursor:pointer; }
-    button.danger { background:#ef4444; }
-    .error { color:#ef4444; font-size:0.85rem; margin-left:6px; }
-    td.actions { width:120px; text-align:right; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Parking Management System</title>
+    <link rel="stylesheet" href="HomePage.css">
 </head>
 <body>
-  <div class="container">
-    <header>
-      <h1>CashFlow Budget Tracker</h1>
+        <header>
+        <div class="navbar">
+            <div class="logo">PARKING MANAGEMENT SYSTEM</div>
+            <ul class="nav-links">
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="LoginPage.html">Log In</a></li>
+                <li><a href="Reservation.html">My Reservation</a></li>
+                <li><a href="ParkingSlot.html">Parking Slot</a></li>
+                <li><a href="ContactUs.html">Contact Us</a></li>
+                <li><a href="HomePage.html">Log Out</a></li>
+            </ul>
+        </div>
     </header>
+    <section class="hero">
+        <h1>Welcome to the Parking Management System</h1>
 
-    <div class="controls">
-      <button id="showAdd">Add</button>
-      <div class="form-inline" id="addForm">
-        <input id="date" placeholder="Date (digits only)">
-        <input id="name" placeholder="Expenses Name (letters only)">
-        <input id="amount" placeholder="Amount (numbers only)">
-        <input id="description" placeholder="Description (letters only)">
-        <button id="submitAdd">Save</button>
-        <button id="cancelAdd" class="danger">Cancel</button>
-      </div>
-      <div id="formError" class="error"></div>
-    </div>
+        <div class="about-box">
+            <h2>All About Parking System</h2>
+            <p>
+                Many vehicle owners, especially in busy areas and campuses, struggle to find and manage
+                parking spaces efficiently. This often leads to time wasted searching for parking and
+                unnecessary congestion. The Parking Management System is designed to help users
+                easily locate, reserve, and manage parking slots. This system simplifies the process,
+                reduces parking stress, and ensures better organization of parking spaces. The main users
+                of this system are vehicle owners who want convenience, and administrators who aim to
+                monitor and manage parking operations effectively.
+            </p>
+        </div>
+    </section>
 
-    <table id="entriesTable">
-      <thead>
-        <tr>
-          <th>Date</th>
-          <th>Expenses Name</th>
-          <th>Amount</th>
-          <th>Description</th>
-          <th class="actions">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-      </tbody>
-    </table>
-  </div>
+    <section class="contact-section">
+        <h2>Do you have any questions?</h2>
+        <h2>Do you need help to manage your parking facility?</h2>
+        <h3>Contact Us to guide you!</h3>
 
-<script>
-const reDate = /^\d+$/;
-const reNameDesc = /^[A-Za-z\s]+$/;
-const reAmount = /^\d+(\.\d+)?$/;
-
-const showAdd = document.getElementById('showAdd');
-const addForm = document.getElementById('addForm');
-const submitAdd = document.getElementById('submitAdd');
-const cancelAdd = document.getElementById('cancelAdd');
-const formError = document.getElementById('formError');
-
-const inputs = {
-  date: document.getElementById('date'),
-  name: document.getElementById('name'),
-  amount: document.getElementById('amount'),
-  description: document.getElementById('description')
-};
-
-showAdd.addEventListener('click', () => {
-  addForm.style.display = 'flex';
-  formError.textContent = '';
-});
-
-cancelAdd.addEventListener('click', () => {
-  addForm.style.display = 'none';
-  clearInputs();
-  formError.textContent = '';
-});
-
-function clearInputs() {
-  for (const k in inputs) inputs[k].value = '';
-}
-
-function clientValidate() {
-  const d = inputs.date.value.trim();
-  const n = inputs.name.value.trim();
-  const a = inputs.amount.value.trim();
-  const desc = inputs.description.value.trim();
-  if (!reDate.test(d)) return 'Date must contain digits only.';
-  if (!reNameDesc.test(n)) return 'Expenses name must contain letters and spaces only.';
-  if (!reAmount.test(a)) return 'Amount must be numeric (digits or decimal).';
-  if (!reNameDesc.test(desc)) return 'Description must contain letters and spaces only.';
-  return null;
-}
-
-submitAdd.addEventListener('click', async () => {
-  formError.textContent = '';
-  const clientErr = clientValidate();
-  if (clientErr) { formError.textContent = clientErr; return; }
-
-  const payload = {
-    date: inputs.date.value.trim(),
-    name: inputs.name.value.trim(),
-    amount: inputs.amount.value.trim(),
-    description: inputs.description.value.trim()
-  };
-
-  try {
-    const res = await fetch('/add', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify(payload)
-    });
-    const data = await res.json();
-    if (!res.ok) {
-      // server-side validation errors
-      formError.textContent = Object.values(data.errors || {}).join(' ');
-      return;
-    }
-    appendRow(data.entry);
-    addForm.style.display = 'none';
-    clearInputs();
-  } catch (err) {
-    formError.textContent = 'Network error';
-  }
-});
-
-function appendRow(entry) {
-  const tbody = document.querySelector('#entriesTable tbody');
-  const tr = document.createElement('tr');
-  tr.dataset.id = entry.id;
-  tr.innerHTML = `
-    <td>${escapeHtml(entry.date)}</td>
-    <td>${escapeHtml(entry.name)}</td>
-    <td>${escapeHtml(entry.amount)}</td>
-    <td>${escapeHtml(entry.description)}</td>
-    <td class="actions"><button data-id="${entry.id}" class="deleteBtn danger">Delete</button></td>
-  `;
-  tbody.appendChild(tr);
-}
-
-function escapeHtml(s){ return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
-
-document.querySelector('#entriesTable tbody').addEventListener('click', async (e) => {
-  if (!e.target.classList.contains('deleteBtn')) return;
-  const id = e.target.dataset.id;
-  if (!confirm('Delete this entry?')) return;
-  try {
-    const res = await fetch(`/delete/${id}`, { method: 'DELETE' });
-    const data = await res.json();
-    if (res.ok && data.ok) {
-      const row = document.querySelector(`tr[data-id="${id}"]`);
-      if (row) row.remove();
-    } else {
-      alert('Delete failed');
-    }
-  } catch (err) {
-    alert('Network error');
-  }
-});
-
-// load existing entries on start
-async function loadEntries() {
-  try {
-    const res = await fetch('/entries');
-    if (!res.ok) return;
-    const list = await res.json();
-    list.forEach(appendRow);
-  } catch (e) { /* ignore */ }
-}
-loadEntries();
-</script>
-</body>
+        <div class="contact-info">
+            <p><strong>Facebook:</strong> <a href="https://www.facebook.com/angelson.magallenpatacsil">https://www.facebook.com/angelson.magallenpatacsil</a>
+            <p><strong>Email:</strong> angelsonpatacsil29@gmail.com</p>
+            <p><strong>Contact Number:</strong> 09270557983</p>
+            <p><strong>Developer:</strong> Angelson M.Patacsil</p>
+        </div>
+    </section>
+</body> 
 </html>
