@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="Reservation.css">
+    <script src="Reservation.js"></script>
     <title>Reservation</title>
 </head>
 <body>
@@ -13,12 +14,59 @@
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
                 <li><a href="LoginPage.html">Log In</a></li>
-                <li><a href="Reservation.html">My Reservation</a></li>
                 <li><a href="ParkingSlot.html">Parking Slot</a></li>
+                <li><a href="Reservation.html">Reservation</a></li>
                 <li><a href="ContactUs.html">Contact Us</a></li>
-                <li><a href="HomePage.html">Log Out</a></li>
+                <li><a href="#" onclick="logout()">Log Out</a></li>
             </ul>
         </div>
     </header>
+    <div class="reservation-box">
+        <div class="user-info">
+            <p><strong>Name:</strong> <span id="userName"></span></p>
+            <p><strong>Email:</strong> <span id="userEmail"></span></p>
+            <p><strong>Contact:</strong> <span id="userContact"></span></p>
+        </div>
+        <div class="time-selection">
+            <label for="startTime"><strong>Start Time:</strong></label>
+            <select id="startTime" disabled>
+                <option value="">Select Start Time</option>
+                <option value="08:00">08:00 AM</option>
+                <option value="09:00">09:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">01:00 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="17:00">05:00 PM</option>
+                <option value="18:00">06:00 PM</option>
+            </select>
+            <label for="endTime"><strong>End Time:</strong></label>
+            <select id="endTime" disabled>
+                <option value="">Select End Time</option>
+                <option value="09:00">09:00 AM</option>
+                <option value="10:00">10:00 AM</option>
+                <option value="11:00">11:00 AM</option>
+                <option value="12:00">12:00 PM</option>
+                <option value="13:00">01:00 PM</option>
+                <option value="14:00">02:00 PM</option>
+                <option value="15:00">03:00 PM</option>
+                <option value="16:00">04:00 PM</option>
+                <option value="17:00">05:00 PM</option>
+                <option value="18:00">06:00 PM</option>
+                <option value="19:00">07:00 PM</option>
+            </select>
+        </div>
+        <div class="date-selection">
+            <label for="startDate"><strong>Start Date:</strong></label>
+            <input type="date" id="startDate" disabled>
+            <label for="endDate"><strong>End Date:</strong></label>
+            <input type="date" id="endDate" disabled>
+        </div>
+        <button id="confirmBtn" disabled>Confirm Reservation</button>
+    </div>
+
 </body>
 </html>

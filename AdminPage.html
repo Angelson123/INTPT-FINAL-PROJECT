@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="AdminPage.css">
     <title>Admin Page</title>
 </head>
 <body>
@@ -12,13 +13,19 @@
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
                 <li><a href="LoginPage.html">Log In</a></li>
-                <li><a href="Reservation.html">My Reservation</a></li>
-                <li><a href="ParkingSlot.html">Parking Slot</a></li>
+                <li><a href="Reservation.html">Reservation</a></li>
                 <li><a href="ContactUs.html">Contact Us</a></li>
-                <li><a href="HomePage.html">Log Out</a></li>
+                <li><a href="#" onclick="logout()">Log Out</a></li>
                 <li><a href="AdminPage.html">Admin Page</a></li>
             </ul>
         </div>
     </header>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            window.location.href = 'HomePage.html';
+        }
+    </script>
 </body>
 </html>

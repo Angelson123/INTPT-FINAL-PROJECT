@@ -3,8 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Parking Slot</title>
     <link rel="stylesheet" href="ParkingSlot.css">
+    <script src="Reservation.js"></script>
+    <script>
+        // Initialize month display and arrow states on page load
+        window.addEventListener('load', function() {
+            updateMonthDisplay();
+            updateArrowStates();
+
+            // Add event listeners for arrows
+            document.getElementById('prevMonth').addEventListener('click', prevMonth);
+            document.getElementById('nextMonth').addEventListener('click', nextMonth);
+        });
+    </script>
+    <title>Parking Slot Selection</title>
 </head>
 <body>
     <header>
@@ -13,12 +25,29 @@
             <ul class="nav-links">
                 <li><a href="HomePage.html">Home</a></li>
                 <li><a href="LoginPage.html">Log In</a></li>
-                <li><a href="Reservation.html">My Reservation</a></li>
                 <li><a href="ParkingSlot.html">Parking Slot</a></li>
+                <li><a href="Reservation.html">Reservation</a></li>
                 <li><a href="ContactUs.html">Contact Us</a></li>
-                <li><a href="HomePage.html">Log Out</a></li>
+                <li><a href="#" onclick="logout()">Log Out</a></li>
             </ul>
         </div>
     </header>
+    <section class="reservation-container">
+        <div class="top-box">
+            <button id="prevMonth" class="month-arrow"><</button>
+            <span id="currentMonth">NOVEMBER 2025</span>
+            <button id="nextMonth" class="month-arrow">></button>
+        </div>
+
+        <div class="days-container">
+            <div class="day-box">MONDAY</div>
+            <div class="day-box">TUESDAY</div>
+            <div class="day-box">WEDNESDAY</div>
+            <div class="day-box">THURSDAY</div>
+            <div class="day-box">FRIDAY</div>
+            <div class="day-box">SATURDAY</div>
+            <div class="day-box">SUNDAY</div>
+        </div>
+    </section>
 </body>
 </html>
