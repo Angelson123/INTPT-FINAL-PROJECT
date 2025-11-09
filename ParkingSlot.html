@@ -5,17 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="ParkingSlot.css">
     <script src="Reservation.js"></script>
-    <script>
-        // Initialize month display and arrow states on page load
-        window.addEventListener('load', function() {
-            updateMonthDisplay();
-            updateArrowStates();
-
-            // Add event listeners for arrows
-            document.getElementById('prevMonth').addEventListener('click', prevMonth);
-            document.getElementById('nextMonth').addEventListener('click', nextMonth);
-        });
-    </script>
+    <script src="ParkingSlot.js"></script>
     <title>Parking Slot Selection</title>
 </head>
 <body>
@@ -47,6 +37,26 @@
             <div class="day-box">FRIDAY</div>
             <div class="day-box">SATURDAY</div>
             <div class="day-box">SUNDAY</div>
+        </div>
+    </section>
+
+    <section class="contact-section">
+        <h1>STEPS ON HOW TO RESERVE YOUR PARKING SLOT</h1>
+        <div class="numbers">
+            <div class="monday-slot">
+            <img src="number 1.jpg" alt="1">
+            <p>First, log in and fill out your name, email, and contact number before proceeding to view available slots for your selected month and days.</p>
+            </div>
+            <div class="wednesday-slot">
+            <img src="number 2.jpg" alt="5">
+            <p>After logging in, you can view the available parking slots for your selected month and days. Simply click the arrow buttons to navigate between months and select “View Slots” to see the available days. Once you’ve chosen your desired slot, click the “Proceed” button to continue.</p>
+            </div>
+            <div class="friday-slot">
+            <img src="number 3.jpg" alt="3">
+            </div>
+            <div class="sunday-slot">
+            <img src="number 4.jpg" alt="4">
+            </div>
         </div>
     </section>
 </body>

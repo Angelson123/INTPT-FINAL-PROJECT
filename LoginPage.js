@@ -1,11 +1,9 @@
-// Get form elements
 const nameInput = document.querySelector('input[name="name"]');
 const emailInput = document.querySelector('input[name="email"]');
 const contactInput = document.querySelector('input[name="contact"]');
 const userConfirmBtn = document.querySelector('button[value="user"]');
 const adminConfirmBtn = document.querySelector('button[value="admin"]');
 
-// Check if already logged in on page load
 window.addEventListener('load', function() {
     const loggedIn = localStorage.getItem('loggedIn');
     if (loggedIn === 'user') {
@@ -15,27 +13,22 @@ window.addEventListener('load', function() {
     }
 });
 
-// Function to validate email ends with @gmail.com
 function isValidEmail(email) {
     return email.endsWith('@gmail.com');
 }
 
-// Function to validate admin email
 function isAdminEmail(email) {
     return email === 'admin123@gmail.com';
 }
 
-// Function to validate name: no numbers allowed
 function isValidName(name) {
     return !/\d/.test(name);
 }
 
-// Function to validate contact: exactly 11 digits
 function isValidContact(contact) {
     return contact.length === 11;
 }
 
-// Contact number validation: only numbers, max 11 digits
 contactInput.addEventListener('input', function(e) {
     // Remove non-numeric characters
     let value = e.target.value.replace(/\D/g, '');
