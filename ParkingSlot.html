@@ -17,7 +17,6 @@
                 <li><a href="LoginPage.html">Log In</a></li>
                 <li><a href="ParkingSlot.html">Parking Slot</a></li>
                 <li><a href="Reservation.html">Reservation</a></li>
-                <li><a href="ContactUs.html">Contact Us</a></li>
                 <li><a href="#" onclick="logout()">Log Out</a></li>
             </ul>
         </div>
@@ -30,14 +29,44 @@
         </div>
 
         <div class="days-container">
-            <div class="day-box">MONDAY</div>
-            <div class="day-box">TUESDAY</div>
-            <div class="day-box">WEDNESDAY</div>
-            <div class="day-box">THURSDAY</div>
-            <div class="day-box">FRIDAY</div>
-            <div class="day-box">SATURDAY</div>
-            <div class="day-box">SUNDAY</div>
+            <div class="day-box">
+                MONDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
+            <div class="day-box">
+                TUESDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
+            <div class="day-box">
+                WEDNESDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
+            <div class="day-box">
+                THURSDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
+            <div class="day-box">
+                FRIDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
+            <div class="day-box">
+                SATURDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
+            <div class="day-box">
+                SUNDAY
+                <div class="slot-count">0</div>
+                <p>SLOTS!</p>
+            </div>
         </div>
+
+        <button id="proceedBtn">Proceed</button>
     </section>
 
     <section class="contact-section">
@@ -49,14 +78,15 @@
             </div>
             <div class="wednesday-slot">
             <img src="number 2.jpg" alt="5">
-            <p>After logging in, you can view the available parking slots for your selected month and days. Simply click the arrow buttons to navigate between months and select “View Slots” to see the available days. Once you’ve chosen your desired slot, click the “Proceed” button to continue.</p>
+            <p>After logging in, you can view the available parking slots for your selected month and days. A value of “0” means no one has reserved a slot yet. Simply click the arrow buttons to navigate between months. Once you’ve chosen your desired slot, click the “Proceed” button to continue.</p>
             </div>
             <div class="friday-slot">
             <img src="number 3.jpg" alt="3">
+            <p>After clicking the “Proceed” button, you will be asked to fill in the time and date you want to park or make a reservation. Make sure to review your details carefully to ensure everything is correct. Once done, click the “Confirm Reserve” button to proceed.</p>
             </div>
             <div class="sunday-slot">
             <img src="number 4.jpg" alt="4">
-            </div>
+            <p>Finally, after confirming your reservation, please wait within 1–5 hours to receive an email from our admin confirming that your parking slot has been successfully reserved. You can then choose to make another reservation or exit the system.</p>
         </div>
     </section>
 </body>

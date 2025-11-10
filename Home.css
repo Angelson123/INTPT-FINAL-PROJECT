@@ -1,0 +1,139 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-image: url('backGround.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    min-height: 100vh;
+    margin: 0;
+}
+
+header {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 25px 60px;
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 10;
+}
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 25px;
+    font-weight: bold;
+    color: cyan;
+}
+
+.nav-links {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+}
+
+.nav-links li a {
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav-links li a:hover {
+    color: #00bcd4;
+}
+
+.hero {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding-top: 60px;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.hero h1 {
+    font-size: 55px;
+    color: whitesmoke;
+}
+
+.hero p {
+    font-size: 18px;
+    color: whitesmoke;
+}
+
+.about-box {
+    background: rgba(0, 0, 0, 0.7);
+    color: white;
+    width: 60%;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    margin-top: 40px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+}
+
+.about-box h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+    color: cyan;
+}
+
+.about-box p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.contact-section {
+    background: rgba(0, 0, 0, 0.85);
+    text-align: center;
+    padding: 60px 20px;
+    margin-top: 50px;
+}
+
+.contact-section h2 {
+    font-size: 28px;
+    color: #00bcd4;
+}
+
+.contact-section p {
+    font-size: 18px;
+    margin: 10px 0;
+}
+
+.contact-section h3 {
+    margin: 15px 0;
+    font-size: 22px;
+    color: #ffffff;
+}
+
+.contact-info {
+    margin-top: 20px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    margin: 8px 0;
+    color: whitesmoke;
+}
+
+.contact-info a {
+    color: whitesmoke;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+    color: #00bcd4;
+}

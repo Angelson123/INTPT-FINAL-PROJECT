@@ -1,9 +1,11 @@
 function logout() {
-    localStorage.removeItem('loggedIn');
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userEmail');
-    localStorage.removeItem('userContact');
-    window.location.href = 'HomePage.html';
+    if (confirm("Are you sure you want to log out?")) {
+        localStorage.removeItem('loggedIn');
+        localStorage.removeItem('userName');
+        localStorage.removeItem('userEmail');
+        localStorage.removeItem('userContact');
+        window.location.href = 'HomePage.html';
+    }
 }
 
 // Month navigation logic
@@ -64,17 +66,26 @@ function updateArrowStates() {
 }
 
 // Display user info on page load and enable/disable fields based on login status
-window.addEventListener('load', function() {
-    const userName = localStorage.getItem('userName');
+window.addEventListener('load', async function() {
     const userEmail = localStorage.getItem('userEmail');
-    const userContact = localStorage.getItem('userContact');
     const loggedIn = localStorage.getItem('loggedIn');
 
-    if (userName) document.getElementById('userName').textContent = userName;
-    if (userEmail) document.getElementById('userEmail').textContent = userEmail;
-    if (userContact) document.getElementById('userContact').textContent = userContact;
+    if (userEmail && loggedIn === 'user') {
+        // Fetch user info from backend
+        try {
+            const response = await fetch(`http://localhost:5000/user/${userEmail}`);
+            const userData = await response.json();
+            if (response.ok) {
+                document.getElementById('userName').textContent = userData.name;
+                document.getElementById('userEmail').textContent = userEmail;
+                document.getElementById('userContact').textContent = userData.contact;
+            } else {
+                console.error('Error fetching user info:', userData.error);
+            }
+        } catch (error) {
+            console.error('Error fetching user info:', error);
+        }
 
-    if (loggedIn) {
         // Enable fields if logged in
         document.getElementById('startTime').disabled = false;
         document.getElementById('endTime').disabled = false;
@@ -96,7 +107,7 @@ window.addEventListener('load', function() {
     }
 
     // Add event listener for confirm button
-    document.getElementById('confirmBtn').addEventListener('click', function() {
+    document.getElementById('confirmBtn').addEventListener('click', async function() {
         const startDate = document.getElementById('startDate').value;
         const endDate = document.getElementById('endDate').value;
         const startTime = document.getElementById('startTime').value;
@@ -112,7 +123,28 @@ window.addEventListener('load', function() {
             return;
         }
 
-        // If all validations pass
-        alert('Reservation confirmed!');
+        // Send reservation to backend
+        try {
+            const response = await fetch('http://localhost:5000/reservations', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    email: userEmail,
+                    startTime: startTime,
+                    endTime: endTime,
+                    startDate: startDate,
+                    endDate: endDate
+                })
+            });
+            const result = await response.json();
+            if (result.success) {
+                alert('Your reservation is confirmed. Please wait for our admin to approve it. You will receive an email to inform you that your reservation is approved. Thank you for choosing our service!');
+                window.location.href = 'HomePage.html';
+            } else {
+                alert(result.message);
+            }
+        } catch (error) {
+            alert('Error submitting reservation. Please try again.');
+        }
     });
 });

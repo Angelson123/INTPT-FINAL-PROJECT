@@ -11,21 +11,28 @@
         <div class="navbar">
             <div class="logo">PARKING MANAGEMENT SYSTEM</div>
             <ul class="nav-links">
-                <li><a href="HomePage.html">Home</a></li>
-                <li><a href="LoginPage.html">Log In</a></li>
-                <li><a href="Reservation.html">Reservation</a></li>
-                <li><a href="ContactUs.html">Contact Us</a></li>
-                <li><a href="#" onclick="logout()">Log Out</a></li>
+                <li><a href="Home.html">Home</a></li>
                 <li><a href="AdminPage.html">Admin Page</a></li>
+                <li><a href="#" onclick="logout()">Log Out</a></li>
             </ul>
         </div>
     </header>
 
-    <script>
-        function logout() {
-            localStorage.removeItem('loggedIn');
-            window.location.href = 'HomePage.html';
-        }
-    </script>
+    <div class="admin-box" id="adminBox">
+        <h2>Pending Reservations</h2>
+        <div id="pendingReservations"></div>
+    </div>
+
+    <div class="approved-box" id="approvedBox">
+        <h3>Approved Reservations</h3>
+        <div id="approvedReservations"></div>
+    </div>
+
+    <div class="declined-box" id="declinedBox">
+        <h3>Declined Reservations</h3>
+        <div id="declinedReservations"></div>
+    </div>
+
+    <script src="AdminPage.js"></script>
 </body>
 </html>

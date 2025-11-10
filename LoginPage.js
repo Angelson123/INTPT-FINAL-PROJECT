@@ -42,7 +42,7 @@ contactInput.addEventListener('input', function(e) {
     }
 });
 
-userConfirmBtn.addEventListener('click', function(e) {
+userConfirmBtn.addEventListener('click', async function(e) {
     e.preventDefault();
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
@@ -63,15 +63,28 @@ userConfirmBtn.addEventListener('click', function(e) {
         alert('Contact number must be exactly 11 digits.');
         return;
     }
-    localStorage.setItem('loggedIn', 'user');
-    localStorage.setItem('userName', name);
-    localStorage.setItem('userEmail', email);
-    localStorage.setItem('userContact', contact);
-    window.location.replace('ParkingSlot.html');
+
+    try {
+        const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, contact, role: 'user' })
+        });
+        const result = await response.json();
+        if (result.success) {
+            localStorage.setItem('loggedIn', 'user');
+            localStorage.setItem('userEmail', email);  // Store email for session
+            window.location.replace('ParkingSlot.html');
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        alert('Error connecting to server. Please try again.');
+    }
 });
 
-adminConfirmBtn.addEventListener('click', function(e) {
-    e.preventDefault(); 
+adminConfirmBtn.addEventListener('click', async function(e) {
+    e.preventDefault();
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
     const contact = contactInput.value.trim();
@@ -91,6 +104,21 @@ adminConfirmBtn.addEventListener('click', function(e) {
         alert('Sorry, you are not the admin.');
         return;
     }
-    localStorage.setItem('loggedIn', 'admin');
-    window.location.replace('AdminPage.html');
+
+    try {
+        const response = await fetch('http://localhost:5000/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ name, email, contact, role: 'admin' })
+        });
+        const result = await response.json();
+        if (result.success) {
+            localStorage.setItem('loggedIn', 'admin');
+            window.location.replace('AdminPage.html');
+        } else {
+            alert(result.message);
+        }
+    } catch (error) {
+        alert('Error connecting to server. Please try again.');
+    }
 });
