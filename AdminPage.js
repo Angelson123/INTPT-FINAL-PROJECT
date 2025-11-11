@@ -15,108 +15,47 @@ function formatTime(time) {
 
 async function loadReservations() {
     try {
-        const [pendingRes, approvedRes, declinedRes] = await Promise.all([
-            fetch('http://localhost:5000/reservations/pending').then(r => r.json()),
-            fetch('http://localhost:5000/reservations/approved').then(r => r.json()),
-            fetch('http://localhost:5000/reservations/declined').then(r => r.json())
-        ]);
-
-        const pendingContainer = document.getElementById('pendingReservations');
-        const approvedContainer = document.getElementById('approvedReservations');
-        const declinedContainer = document.getElementById('declinedReservations');
-
-        pendingContainer.innerHTML = '';
-        approvedContainer.innerHTML = '';
-        declinedContainer.innerHTML = '';
-
-        pendingRes.forEach((res, index) => {
+        const res = await fetch('http://localhost:5000/reservations/pending').then(r => r.json());
+        const container = document.getElementById('pendingReservations');
+        container.innerHTML = '';
+        res.forEach((r, index) => {
             const item = document.createElement('div');
             item.className = 'reservation-item';
             item.innerHTML = `
-                <p>Name: ${res.name}</p>
-                <p>Email: ${res.email}</p>
-                <p>Contact No.: ${res.contact}</p>
-                <p>Start Time: ${formatTime(res.startTime)}</p>
-                <p>End Time: ${formatTime(res.endTime)}</p>
-                <p>Start Date: ${res.startDate}</p>
-                <p>End Date: ${res.endDate}</p>
+                <p>Name: ${r.name}</p>
+                <p>Email: ${r.email}</p>
+                <p>Contact No.: ${r.contact}</p>
+                <p>Start Time: ${formatTime(r.startTime)}</p>
+                <p>End Time: ${formatTime(r.endTime)}</p>
+                <p>Start Date: ${r.startDate}</p>
+                <p>End Date: ${r.endDate}</p>
                 <div class="button-group">
-                    <button class="agree-btn" onclick="approveReservation(${index})">Agree</button>
-                    <button class="decline-btn" onclick="declineReservation(${index})">Decline</button>
+                    <button class="agree-btn" onclick="approve(${index})">Agree</button>
+                    <button class="decline-btn" onclick="decline(${index})">Decline</button>
                 </div>
             `;
-            pendingContainer.appendChild(item);
-        });
-
-        approvedRes.forEach((res, index) => {
-            const item = document.createElement('div');
-            item.className = 'reservation-item';
-            item.innerHTML = `
-                <p>Name: ${res.name}</p>
-                <p>Email: ${res.email}</p>
-                <p>Contact No.: ${res.contact}</p>
-                <p>Start Time: ${formatTime(res.startTime)}</p>
-                <p>End Time: ${formatTime(res.endTime)}</p>
-                <p>Start Date: ${res.startDate}</p>
-                <p>End Date: ${res.endDate}</p>
-                <button class="delete-btn" onclick="deleteApproved(${index})">Delete</button>
-            `;
-            approvedContainer.appendChild(item);
-        });
-
-        declinedRes.forEach((res, index) => {
-            const item = document.createElement('div');
-            item.className = 'reservation-item';
-            item.innerHTML = `
-                <p>Name: ${res.name}</p>
-                <p>Email: ${res.email}</p>
-                <p>Contact No.: ${res.contact}</p>
-                <p>Start Time: ${formatTime(res.startTime)}</p>
-                <p>End Time: ${formatTime(res.endTime)}</p>
-                <p>Start Date: ${res.startDate}</p>
-                <p>End Date: ${res.endDate}</p>
-                <button class="delete-btn" onclick="deleteDeclined(${index})">Delete</button>
-            `;
-            declinedContainer.appendChild(item);
+            container.appendChild(item);
         });
     } catch (error) {
-        console.error('Error loading reservations:', error);
+        console.error('Error:', error);
     }
 }
 
-async function approveReservation(index) {
+async function approve(index) {
     try {
         await fetch(`http://localhost:5000/reservations/approve/${index}`, { method: 'POST' });
         loadReservations();
     } catch (error) {
-        console.error('Error approving reservation:', error);
+        console.error('Error:', error);
     }
 }
 
-async function declineReservation(index) {
+async function decline(index) {
     try {
         await fetch(`http://localhost:5000/reservations/decline/${index}`, { method: 'POST' });
         loadReservations();
     } catch (error) {
-        console.error('Error declining reservation:', error);
-    }
-}
-
-async function deleteApproved(index) {
-    try {
-        await fetch(`http://localhost:5000/reservations/approved/${index}`, { method: 'DELETE' });
-        loadReservations();
-    } catch (error) {
-        console.error('Error deleting approved reservation:', error);
-    }
-}
-
-async function deleteDeclined(index) {
-    try {
-        await fetch(`http://localhost:5000/reservations/declined/${index}`, { method: 'DELETE' });
-        loadReservations();
-    } catch (error) {
-        console.error('Error deleting declined reservation:', error);
+        console.error('Error:', error);
     }
 }
 

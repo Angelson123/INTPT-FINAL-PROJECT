@@ -1,15 +1,12 @@
 from flask import Flask, request, jsonify
 from flask_cors import CORS
-from datetime import datetime
+import db
 
 app = Flask(__name__)
-CORS(app)  # Enable CORS for frontend communication
+CORS(app)
 
-# In-memory data storage using lists and dictionaries
-users = {}  # Dictionary: email -> {'name': str, 'contact': str, 'role': 'user' or 'admin'}
-pending_reservations = []  # List of reservation dictionaries
-approved_reservations = []  # List of reservation dictionaries
-declined_reservations = []  # List of reservation dictionaries
+users = {}
+pending_reservations = []
 
 @app.route('/login', methods=['POST'])
 def login():
@@ -17,12 +14,11 @@ def login():
     name = data.get('name')
     email = data.get('email')
     contact = data.get('contact')
-    role = data.get('role', 'user')  # 'user' or 'admin'
+    role = data.get('role', 'user')
 
     if not name or not email or not contact:
         return jsonify({'success': False, 'message': 'All fields are required'}), 400
 
-    # Basic validation (similar to frontend)
     if any(char.isdigit() for char in name):
         return jsonify({'success': False, 'message': 'Name cannot contain numbers'}), 400
     if not email.endswith('@gmail.com'):
@@ -32,9 +28,7 @@ def login():
     if role == 'admin' and email != 'admin123@gmail.com':
         return jsonify({'success': False, 'message': 'Not authorized as admin'}), 403
 
-    # Store user
     users[email] = {'name': name, 'contact': contact, 'role': role}
-
     return jsonify({'success': True, 'role': role})
 
 @app.route('/user/<email>', methods=['GET'])
@@ -71,42 +65,26 @@ def create_reservation():
 def get_pending_reservations():
     return jsonify(pending_reservations)
 
-@app.route('/reservations/approved', methods=['GET'])
-def get_approved_reservations():
-    return jsonify(approved_reservations)
-
-@app.route('/reservations/declined', methods=['GET'])
-def get_declined_reservations():
-    return jsonify(declined_reservations)
-
 @app.route('/reservations/approve/<int:index>', methods=['POST'])
 def approve_reservation(index):
     if 0 <= index < len(pending_reservations):
         reservation = pending_reservations.pop(index)
-        approved_reservations.append(reservation)
-        return jsonify({'success': True})
+        success = db.insert_reservation('approved_reservations', reservation)
+        if success:
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'message': 'Failed to save to database'}), 500
     return jsonify({'success': False, 'message': 'Invalid index'}), 400
 
 @app.route('/reservations/decline/<int:index>', methods=['POST'])
 def decline_reservation(index):
     if 0 <= index < len(pending_reservations):
         reservation = pending_reservations.pop(index)
-        declined_reservations.append(reservation)
-        return jsonify({'success': True})
-    return jsonify({'success': False, 'message': 'Invalid index'}), 400
-
-@app.route('/reservations/approved/<int:index>', methods=['DELETE'])
-def delete_approved(index):
-    if 0 <= index < len(approved_reservations):
-        approved_reservations.pop(index)
-        return jsonify({'success': True})
-    return jsonify({'success': False, 'message': 'Invalid index'}), 400
-
-@app.route('/reservations/declined/<int:index>', methods=['DELETE'])
-def delete_declined(index):
-    if 0 <= index < len(declined_reservations):
-        declined_reservations.pop(index)
-        return jsonify({'success': True})
+        success = db.insert_reservation('declined_reservations', reservation)
+        if success:
+            return jsonify({'success': True})
+        else:
+            return jsonify({'success': False, 'message': 'Failed to save to database'}), 500
     return jsonify({'success': False, 'message': 'Invalid index'}), 400
 
 @app.route('/slots/<month>/<year>', methods=['GET'])
@@ -117,23 +95,8 @@ def get_slots(month, year):
     except ValueError:
         return jsonify({'error': 'Invalid month or year'}), 400
 
-    # Calculate slot counts for each day of the week in the month
-    # Count only approved reservations (occupied slots)
-    slot_counts = {'MONDAY': 0, 'TUESDAY': 0, 'WEDNESDAY': 0, 'THURSDAY': 0, 'FRIDAY': 0, 'SATURDAY': 0, 'SUNDAY': 0}
-
-    for res in approved_reservations:
-        try:
-            start_date = datetime.strptime(res['startDate'], '%Y-%m-%d')
-            if start_date.month == month and start_date.year == year:
-                day_name = start_date.strftime('%A').upper()
-                if day_name in slot_counts:
-                    slot_counts[day_name] += 1
-        except ValueError:
-            continue  # Skip invalid dates
-
+    slot_counts = db.get_slot_counts(month, year)
     return jsonify(slot_counts)
-
-
 
 if __name__ == '__main__':
     app.run(debug=True)

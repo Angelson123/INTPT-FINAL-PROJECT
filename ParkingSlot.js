@@ -1,10 +1,8 @@
-// Initialize month display and arrow states on page load
 window.addEventListener('load', async function() {
     updateMonthDisplay();
     updateArrowStates();
-    await updateSlotCounts();  // Update slot counts on load
+    await updateSlotCounts();
 
-    // Add event listeners for arrows
     document.getElementById('prevMonth').addEventListener('click', async function() {
         prevMonth();
         await updateSlotCounts();
@@ -14,7 +12,6 @@ window.addEventListener('load', async function() {
         await updateSlotCounts();
     });
 
-    // Check login status and disable buttons if not logged in
     const loggedIn = localStorage.getItem('loggedIn');
     if (loggedIn !== 'user') {
         document.getElementById('proceedBtn').disabled = true;
@@ -25,13 +22,11 @@ window.addEventListener('load', async function() {
     }
 });
 
-// Function to update slot counts from backend
 async function updateSlotCounts() {
     try {
         const response = await fetch(`http://localhost:5000/slots/${currentMonth + 1}/${currentYear}`);
         const slotCounts = await response.json();
         if (response.ok) {
-            // Update the slot counts in the HTML
             const dayBoxes = document.querySelectorAll('.day-box');
             dayBoxes.forEach(box => {
                 const dayName = box.textContent.trim().split('\n')[0].toUpperCase();
@@ -41,10 +36,10 @@ async function updateSlotCounts() {
                 }
             });
         } else {
-            console.error('Error fetching slot counts:', slotCounts.error);
+            console.error('Error:', slotCounts.error);
         }
     } catch (error) {
-        console.error('Error fetching slot counts:', error);
+        console.error('Error:', error);
     }
 }
 

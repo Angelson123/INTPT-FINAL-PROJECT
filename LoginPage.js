@@ -1,8 +1,8 @@
 const nameInput = document.querySelector('input[name="name"]');
 const emailInput = document.querySelector('input[name="email"]');
 const contactInput = document.querySelector('input[name="contact"]');
-const userConfirmBtn = document.querySelector('button[value="user"]');
-const adminConfirmBtn = document.querySelector('button[value="admin"]');
+const userBtn = document.querySelector('button[value="user"]');
+const adminBtn = document.querySelector('button[value="admin"]');
 
 window.addEventListener('load', function() {
     const loggedIn = localStorage.getItem('loggedIn');
@@ -13,36 +13,27 @@ window.addEventListener('load', function() {
     }
 });
 
-function isValidEmail(email) {
+function validEmail(email) {
     return email.endsWith('@gmail.com');
 }
 
-function isAdminEmail(email) {
-    return email === 'admin123@gmail.com';
-}
-
-function isValidName(name) {
+function validName(name) {
     return !/\d/.test(name);
 }
 
-function isValidContact(contact) {
+function validContact(contact) {
     return contact.length === 11;
 }
 
 contactInput.addEventListener('input', function(e) {
-    // Remove non-numeric characters
     let value = e.target.value.replace(/\D/g, '');
-    // Limit to 11 digits
     if (value.length > 11) {
         value = value.substring(0, 11);
     }
     e.target.value = value;
-    // If invalid length or non-numeric, show message (but since we filter, maybe not needed)
-    if (value.length > 0 && value.length < 11) {
-    }
 });
 
-userConfirmBtn.addEventListener('click', async function(e) {
+userBtn.addEventListener('click', async function(e) {
     e.preventDefault();
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
@@ -51,15 +42,15 @@ userConfirmBtn.addEventListener('click', async function(e) {
         alert('Please fill up all the fields.');
         return;
     }
-    if (!isValidName(name)) {
+    if (!validName(name)) {
         alert('Name cannot contain numbers.');
         return;
     }
-    if (!isValidEmail(email)) {
-        alert('Incorrect email. Please type your correct email');
+    if (!validEmail(email)) {
+        alert('Incorrect email.');
         return;
     }
-    if (!isValidContact(contact)) {
+    if (!validContact(contact)) {
         alert('Contact number must be exactly 11 digits.');
         return;
     }
@@ -73,7 +64,7 @@ userConfirmBtn.addEventListener('click', async function(e) {
         const result = await response.json();
         if (result.success) {
             localStorage.setItem('loggedIn', 'user');
-            localStorage.setItem('userEmail', email);  // Store email for session
+            localStorage.setItem('userEmail', email);
             window.location.replace('ParkingSlot.html');
         } else {
             alert(result.message);
@@ -83,7 +74,7 @@ userConfirmBtn.addEventListener('click', async function(e) {
     }
 });
 
-adminConfirmBtn.addEventListener('click', async function(e) {
+adminBtn.addEventListener('click', async function(e) {
     e.preventDefault();
     const name = nameInput.value.trim();
     const email = emailInput.value.trim();
@@ -92,15 +83,15 @@ adminConfirmBtn.addEventListener('click', async function(e) {
         alert('Please fill up all the fields.');
         return;
     }
-    if (!isValidName(name)) {
+    if (!validName(name)) {
         alert('Name cannot contain numbers.');
         return;
     }
-    if (!isValidContact(contact)) {
+    if (!validContact(contact)) {
         alert('Contact number must be exactly 11 digits.');
         return;
     }
-    if (!isAdminEmail(email)) {
+    if (email !== 'admin123@gmail.com') {
         alert('Sorry, you are not the admin.');
         return;
     }
