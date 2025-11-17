@@ -101,3 +101,19 @@ header {
 .login-box button:hover {
     background-color: cyan;
 }
+
+.g-signin2 {
+    width: 100% !important;
+    margin: 10px 0;
+}
+
+.g-signin2 > div {
+    width: 100% !important;
+    margin: 0 !important;
+}
+
+.g-signin2 > div > div {
+    width: 100% !important;
+    border-radius: 8px !important;
+    height: 40px !important; /* Match button height */
+}

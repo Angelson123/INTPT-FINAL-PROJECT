@@ -63,6 +63,7 @@ userBtn.addEventListener('click', async function(e) {
         });
         const result = await response.json();
         if (result.success) {
+            alert(`Successful login! Welcome ${email}`);
             localStorage.setItem('loggedIn', 'user');
             localStorage.setItem('userEmail', email);
             window.location.replace('ParkingSlot.html');
@@ -104,6 +105,7 @@ adminBtn.addEventListener('click', async function(e) {
         });
         const result = await response.json();
         if (result.success) {
+            alert('Successful login! Welcome admin');
             localStorage.setItem('loggedIn', 'admin');
             window.location.replace('AdminPage.html');
         } else {

@@ -37,6 +37,16 @@ def get_user(email):
         return jsonify(users[email])
     return jsonify({'error': 'User not found'}), 404
 
+@app.route('/user/<email>/approved', methods=['GET'])
+def get_user_approved(email):
+    reservations = db.get_user_reservations(email, 'approved_reservations')
+    return jsonify(reservations)
+
+@app.route('/user/<email>/declined', methods=['GET'])
+def get_user_declined(email):
+    reservations = db.get_user_reservations(email, 'declined_reservations')
+    return jsonify(reservations)
+
 @app.route('/reservations', methods=['POST'])
 def create_reservation():
     data = request.json
@@ -44,13 +54,29 @@ def create_reservation():
     if email not in users:
         return jsonify({'success': False, 'message': 'User not logged in'}), 401
 
+    start_date = data.get('startDate')
+    if not start_date:
+        return jsonify({'success': False, 'message': 'Start date required'}), 400
+
+    from datetime import datetime
+    try:
+        date_obj = datetime.strptime(start_date, '%Y-%m-%d')
+        day_name = date_obj.strftime('%A').upper()
+        month = date_obj.month
+        year = date_obj.year
+        slot_counts = db.get_slot_counts(month, year)
+        if slot_counts.get(day_name, 0) >= 10:
+            return jsonify({'success': False, 'message': f'Slots for {day_name} are fully booked (max 10). Please choose another day.'}), 400
+    except ValueError:
+        return jsonify({'success': False, 'message': 'Invalid date format'}), 400
+
     reservation = {
         'name': users[email]['name'],
         'email': email,
         'contact': users[email]['contact'],
         'startTime': data.get('startTime'),
         'endTime': data.get('endTime'),
-        'startDate': data.get('startDate'),
+        'startDate': start_date,
         'endDate': data.get('endDate'),
         'status': 'pending'
     }

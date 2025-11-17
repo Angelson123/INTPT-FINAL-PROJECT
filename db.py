@@ -119,4 +119,24 @@ def get_slot_counts(month, year):
     connection.close()
     return slot_counts
 
+def get_user_reservations(email, table_name):
+    connection = create_connection()
+    if connection is None:
+        return []
+    cursor = connection.cursor(dictionary=True)
+    cursor.execute(f"SELECT * FROM {table_name} WHERE email = %s", (email,))
+    results = cursor.fetchall()
+    for res in results:
+        if 'start_date' in res and isinstance(res['start_date'], datetime.date):
+            res['startDate'] = res['start_date'].isoformat()
+        if 'end_date' in res and isinstance(res['end_date'], datetime.date):
+            res['endDate'] = res['end_date'].isoformat()
+        if 'start_time' in res:
+            res['startTime'] = res['start_time']
+        if 'end_time' in res:
+            res['endTime'] = res['end_time']
+    cursor.close()
+    connection.close()
+    return results
+
 create_tables()

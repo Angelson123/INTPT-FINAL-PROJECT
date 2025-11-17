@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="Reservation.css">
+    <title>My Reservations</title>
+</head>
+<body>
+    <header>
+        <div class="navbar">
+            <div class="logo">PARKING MANAGEMENT SYSTEM</div>
+            <ul class="nav-links">
+                <li><a href="HomePage.html">Home</a></li>
+                <li><a href="LoginPage.html">Log In</a></li>
+                <li><a href="ParkingSlot.html">Parking Slot</a></li>
+                <li><a href="Reservation.html">Reservation</a></li>
+                <li><a href="MyReservation.html">My Reservation</a></li>
+                <li><a href="#" onclick="logout()">Log Out</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <div class="reservation-box">
+        <h2>My Reservations</h2>
+        <div id="reservations-list">
+            <!-- Reservations will be loaded here -->
+        </div>
+    </div>
+
+    <script src="MyReservation.js"></script>
+    <script>
+        function logout() {
+            if (confirm("Are you sure you want to log out?")) {
+                localStorage.removeItem('loggedIn');
+                window.location.href = 'HomePage.html';
+            }
+        }
+    </script>
+</body>
+</html>

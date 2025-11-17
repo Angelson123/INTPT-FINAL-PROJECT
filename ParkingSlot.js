@@ -32,7 +32,7 @@ async function updateSlotCounts() {
                 const dayName = box.textContent.trim().split('\n')[0].toUpperCase();
                 const countDiv = box.querySelector('.slot-count');
                 if (countDiv && slotCounts[dayName] !== undefined) {
-                    countDiv.textContent = slotCounts[dayName];
+                    countDiv.textContent = `${slotCounts[dayName]}/10`;
                 }
             });
         } else {
